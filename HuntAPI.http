@@ -1,0 +1,6 @@
+@HuntAPI_HostAddress = http://localhost:5042
+
+GET {{HuntAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
