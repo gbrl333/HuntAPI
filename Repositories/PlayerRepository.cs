@@ -1,4 +1,6 @@
-using Data;
+using System.Data;
+using HuntAPI.Data;
+using HuntAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories;
@@ -14,9 +16,7 @@ public class PlayerRepository : IPlayerRepository
 
     public  async Task<Player> Add(Player player)
     {
-        if (player == null)
-            throw new Exception("Player não encontrado");
-
+        
         var entity = await _context.Players.AddAsync(player);
         await _context.SaveChangesAsync();
         
@@ -27,7 +27,7 @@ public class PlayerRepository : IPlayerRepository
     {
         var ExistingPlayers = await _context.Players.FindAsync(playerID);
         if (ExistingPlayers == null)
-          throw new Exception("Player não encontrado");
+          throw new Exception("Player não existe");
 
         ExistingPlayers.active = false;
         await _context.SaveChangesAsync();
@@ -57,20 +57,15 @@ public class PlayerRepository : IPlayerRepository
     }
     public async Task<Player> Update(Player player)
     {
-        var ExistingPlayers = await _context.Players.FindAsync(player.Id);
-          if (ExistingPlayers == null)
-            throw new Exception("Player não encontrado");
+        var existing = await _context.Players.FindAsync(player.Id);
+        if (existing == null) throw new KeyNotFoundException("Player não encontrado");
 
-            
-         if(player.Clan.HasValue)   
-            ExistingPlayers.Clan = player.Clan;
-         if(!string.IsNullOrWhiteSpace(player.Name))   
-            ExistingPlayers.Name = player.Name;
-        if(player.Disk.HasValue)   
-            ExistingPlayers.Disk = player.Disk;
+        existing.Name = player.Name ?? existing.Name;
+        existing.Clan = player.Clan ?? existing.Clan;
+        existing.Disk = player.Disk ?? existing.Disk;
+
         await _context.SaveChangesAsync();
-
-        return ExistingPlayers;
+        return existing;
     
     }
 

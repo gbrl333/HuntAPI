@@ -1,4 +1,6 @@
-using Data;
+using System.Data;
+using HuntAPI.Data;
+using HuntAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories;
@@ -42,12 +44,12 @@ public class ItemRepository : IItemRepository
 
     public async Task<List<Item>> GetAll()
     {
-        var Itens = _context.Itens.ToListAsync();
+        var Itens = await _context.Itens.ToListAsync();
         if (Itens == null){
             throw new Exception("Nao existe itens");
         }
 
-        return await Itens;
+        return Itens;
     }
 
     public async Task<Item?> GetByID(int id)

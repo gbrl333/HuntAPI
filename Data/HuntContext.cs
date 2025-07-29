@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using HuntAPI.Models;
 using Models;
-namespace Data;
 
-public class HuntContext : DbContext{
+namespace HuntAPI.Data;
+
+public class HuntContext : DbContext {
 
     public DbSet<Player> Players { get; set; }
 

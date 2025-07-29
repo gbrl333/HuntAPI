@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Enum;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace Models;
+namespace HuntAPI.Models;
 public class Player {
 
     [Key]

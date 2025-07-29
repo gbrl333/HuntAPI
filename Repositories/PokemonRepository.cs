@@ -1,4 +1,7 @@
-using Data;
+using System.Data;
+using HuntAPI.Data;
+using HuntAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories;
 
@@ -22,14 +25,14 @@ public class PokemonRepository : IPokemonRepository
         return entity.Entity;
     }
 
-    public Task<Pokemon> Delete(int Pokemonid)
+    public async Task<Pokemon> Delete(int Pokemonid)
     {
-      throw new NotImplementedException();
-    }
+        var pokemon = await _context.Pokemons.FindAsync(Pokemonid);
+        _context.Pokemons.Remove(pokemon);
+        await _context.SaveChangesAsync();
+        return pokemon;
 
-    public Task<Pokemon> Delete(Pokemon entity)
-    {
-        throw new NotImplementedException();
+       
     }
 
     public void Dispose()
@@ -39,12 +42,12 @@ public class PokemonRepository : IPokemonRepository
 
     public Task<List<Pokemon>> GetAll()
     {
-        throw new NotImplementedException();
+        return _context.Pokemons.ToListAsync();
     }
 
-    public Task<Pokemon?> GetByID(int id)
+    public async Task<Pokemon?> GetByID(int id)
     {
-        throw new NotImplementedException();
+        return await _context.Pokemons.FindAsync(id);
     }
 
     public Task<Item> GetItensbyID()
@@ -52,8 +55,15 @@ public class PokemonRepository : IPokemonRepository
         throw new NotImplementedException();
     }
 
-    public Task<Pokemon> Update(Pokemon entity)
+    public async Task<Pokemon> Update(Pokemon entity)
     {
-        throw new NotImplementedException();
+        var existing = _context.Pokemons.FindAsync(entity.Id);
+        if (existing == null)
+        {
+            throw new Exception($"{entity.Id} nao existe.");
+        }
+        _context.Pokemons.Update(entity);
+        await _context.SaveChangesAsync();
+        return entity;
     }
 }

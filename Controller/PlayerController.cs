@@ -1,6 +1,8 @@
+using HuntAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repositories;
+using Services;
 
 namespace Controllers;
 
@@ -8,24 +10,24 @@ namespace Controllers;
 [Route("api/v1/[controller]")]
 public class PlayerController : ControllerBase
 {
-    private readonly IPlayerRepository _repository;
+    private readonly IPlayerService _service;
 
-        public PlayerController(IPlayerRepository repository)
+        public PlayerController(IPlayerService repository)
     {
-         _repository = repository;
+         _service = repository;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Player>>> GetAll()
 {
-    var players = await _repository.GetAll();
+    var players = await _service.GetAll();
     return Ok(players);
 }
 
 [HttpGet("{id}")]
 public async Task<ActionResult<Player>> GetById(int id)
 {
-    var player = await _repository.GetByID(id);
+    var player = await _service.GetbyID(id);
     if (player == null)
         return NotFound("Jogador não encontrado");
 
@@ -34,7 +36,7 @@ public async Task<ActionResult<Player>> GetById(int id)
 [HttpPost]
  public async Task<ActionResult<Player>> Add(Player player)
 {
-    var novoPlayer = await _repository.Add(player);
+    var novoPlayer = await _service.Create(player);
     return CreatedAtAction(nameof(GetById), new { id = novoPlayer.Id }, novoPlayer);
 }
 [HttpPut("{id}")]
@@ -45,8 +47,8 @@ public async Task<IActionResult> Update(int id, Player player)
 
         try
         {
-          await _repository.Update(player);
-          return NoContent();
+          await _service.Update(player);
+          return Ok();
         }
         catch (Exception ex)
         {
@@ -62,8 +64,8 @@ public async Task<IActionResult> Delete(int id, Player player)
 
         try
         {
-          await _repository.Delete(player);
-          return NoContent();
+          await _service.Delete(id);
+          return Ok();
         }
         catch (Exception ex)
         {

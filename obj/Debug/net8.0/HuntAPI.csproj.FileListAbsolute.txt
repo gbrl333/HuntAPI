@@ -157,3 +157,4 @@ E:\HuntAPI\obj\Debug\net8.0\refint\HuntAPI.dll
 E:\HuntAPI\obj\Debug\net8.0\HuntAPI.pdb
 E:\HuntAPI\obj\Debug\net8.0\HuntAPI.genruntimeconfig.cache
 E:\HuntAPI\obj\Debug\net8.0\ref\HuntAPI.dll
+E:\HuntAPI\obj\Debug\net8.0\HuntAPI.sourcelink.json

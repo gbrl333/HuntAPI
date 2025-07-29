@@ -1,11 +1,20 @@
-using Data;
+using HuntAPI.Repositories;
+using HuntAPI.Repositories.Interfaces;
+using HuntAPI.Services;
+using HuntAPI.Services.ServiceInterfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Repositories;
 
-public static class DependencyInjectionConfig
+namespace HuntAPI.Config
 {
-    public static void AddApplicationServices(this IServiceCollection services)
+    public static class DependencyInjectionConfig
     {
-        services.AddScoped<IPlayerRepository, PlayerRepository>();
-        services.AddScoped<IItemRepository, ItemRepository>();
+        public static void AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IHuntRepository, HuntRepository>();
+            services.AddScoped<IHuntService, HuntService>();
+        }
     }
 }

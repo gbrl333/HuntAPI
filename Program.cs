@@ -1,5 +1,5 @@
-using Data;
-using Repositories;
+using HuntAPI.Config;
+using HuntAPI.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);

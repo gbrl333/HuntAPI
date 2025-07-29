@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Models;
 
-namespace Models;
+namespace HuntAPI.Models;
 public class Hunt {
     
     [Key]
